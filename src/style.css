@@ -1,0 +1,22 @@
+.main-menu {
+  position: relative;
+  visibility: visible;
+}
+
+.play {
+  position: absolute;
+  visibility: hidden;
+}
+
+.references {
+  position: absolute;
+  visibility: hidden;
+}
+
+.game-button {
+  background: darkslategray;
+}
+
+.game-button:hover {
+  background: darkcyan;
+}
