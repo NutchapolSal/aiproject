@@ -1,6 +1,12 @@
+from enum import Enum
 import gradio as gr
 
-from page_enum import Page
+
+## Enumeration of pages to CSS class names
+class Page(Enum):
+    MAIN_MENU = "main-menu",
+    PLAY = "play",
+    REFERENCES = "references",
 
 
 with gr.Blocks() as main_menu:
@@ -8,6 +14,9 @@ with gr.Blocks() as main_menu:
     with gr.Row(elem_classes=[CUR_PAGE]):
         with gr.Column():
             play_ai = gr.Button("Play vs AI", elem_classes=["game-button"])
+            play_ai.click(None, [gr.State(CUR_PAGE), gr.State(Page.PLAY)], js="switchPage")
+        with gr.Column():
+            play_ai = gr.Button("Play vs Human", elem_classes=["game-button"])
             play_ai.click(None, [gr.State(CUR_PAGE), gr.State(Page.PLAY)], js="switchPage")
             ref_btn = gr.Button("References")
             ref_btn.click(None, [gr.State(CUR_PAGE), gr.State(Page.REFERENCES)], js="switchPage")

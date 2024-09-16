@@ -1,6 +1,11 @@
+h1.title {
+  font-size: xx-large !important;
+  text-align: center !important;
+}
+
 .main-menu {
-  position: relative;
-  visibility: visible;
+  position: inherit;
+  visibility: inherit;
 }
 
 .play {
@@ -14,9 +19,13 @@
 }
 
 .game-button {
+  height: 16em;
+}
+
+.dark.game-button {
   background: darkslategray;
 }
 
-.game-button:hover {
+.dark.game-button:hover {
   background: darkcyan;
 }
