@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 from pathlib import Path
 
-model = tf.keras.models.load_model('./assets/vgg-added-6types-kfold-1.keras')
+model = tf.keras.models.load_model('./assets/effnet-added-6types-pm1.1-kfold-4.keras')
 class_names = ['gun', 'lizard', 'paper', 'rock', 'scissors', 'trident']
 
 auths = [
@@ -30,6 +30,18 @@ def predict_image(image: Image.Image) -> str:
     print(predicted_class)
     return class_names[predicted_class[0]]
 
+def predict_image_api(image: Image.Image):
+    if image is None:
+        return None
+    image = image.resize((224, 224))
+    img_array = np.array([image])
+
+    predictions = model.predict(img_array)
+    res = {}
+    for i, v in enumerate(predictions[0]):
+        res[class_names[i]] = v
+    return res
+
 def save_image(image, tag, username, model_guess, count):
     if tag == "none":
         return count, "..."
@@ -49,9 +61,9 @@ def generate_thumb(image):
     thumb.thumbnail((150,225))
     return thumb
 
-def predict_and_save_image(image, tag, username, count):
+def predict_and_save_image(image, tag, count, request: gr.Request):
     prediction = predict_image(image)
-    count, output = save_image(image, tag, username, prediction, count)
+    count, output = save_image(image, tag, request.username, prediction, count)
     thumb = generate_thumb(image)
     return prediction, count, output, thumb
 def print_images_count(count):
@@ -66,9 +78,9 @@ with gr.Blocks() as demo:
     demo.load(get_username_from_request, outputs=username_box)
     with gr.Row():
         with gr.Column():
-            image_input = gr.Image(type="pil", sources="webcam", streaming=True, height=400, width=600, mirror_webcam=False)
+            image_input = gr.Image(type="pil", sources="webcam", height=400, width=600, mirror_webcam=False)
         with gr.Column():
-            run_button = gr.Button(value="Capture")
+            run_button = gr.Button(value="Submit")
             image_tag_as = gr.Radio(class_names+["none"],label="tag as",value="none")
             image_output_preview = gr.Image(type="pil", height=150, width=225, interactive=False)
             images_count = gr.State(0)
@@ -76,7 +88,12 @@ with gr.Blocks() as demo:
             estimation_output = gr.Textbox(f"...", label="model guesses:", interactive=False)
 
             # run_button.click(fn=save_image, inputs=[authorized, image_input, images_count], outputs=[images_count, text_output])
-            run_button.click(fn=predict_and_save_image, inputs=[image_input, image_tag_as, username_box, images_count], outputs=[estimation_output, images_count, text_output, image_output_preview])
+            run_button.click(fn=predict_and_save_image, inputs=[image_input, image_tag_as, images_count], outputs=[estimation_output, images_count, text_output, image_output_preview])
+            api_button = gr.Button(value="API")
+            api_out = gr.JSON(label="api output")
+            api_button.click(fn=predict_image_api, inputs=[image_input], outputs=[api_out])
+
+
 
 # demo.launch()
 demo.launch(server_name="0.0.0.0", auth=auths)
