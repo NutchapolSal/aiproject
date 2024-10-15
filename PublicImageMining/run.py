@@ -21,10 +21,8 @@ auths = [
 def predict_image(image: Image.Image) -> str:
     if image is None:
         return 'no image imput (make sure to press 🔴 on the webcam)'
-    img_array = np.array(image)
-    img_array = tf.image.resize(img_array, [224, 224])
-    img_array = img_array  / 255.0
-    img_array = np.expand_dims(img_array, axis=0)
+    image = image.resize((224, 224))
+    img_array = np.array([image])
 
     predictions = model.predict(img_array)
     print(predictions)
