@@ -24,7 +24,7 @@ def predict_image(image: Image.Image) -> str:
     image = image.resize((224, 224))
     img_array = np.array([image])
 
-    predictions = model.predict(img_array)
+    predictions = model(img_array, training=False).numpy()
     print(predictions)
     predicted_class = np.argmax(predictions, axis=1)
     print(predicted_class)
@@ -36,7 +36,7 @@ def predict_image_api(image: Image.Image):
     image = image.resize((224, 224))
     img_array = np.array([image])
 
-    predictions = model.predict(img_array)
+    predictions = model(img_array, training=False).numpy()
     res = {}
     for i, v in enumerate(predictions[0]):
         res[class_names[i]] = v
