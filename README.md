@@ -1,5 +1,22 @@
 # ReLU AI Project
 
+## setup Python environment
+
+### first time
+0. use WSL (for `tensorflow` GPU support)
+0. run `python -m "venv" venv` to create virtual python environment
+0. run `source venv/bin/activate` to activate venv
+0. run `pip install -r requirements.txt`
+
+### re-running
+run `source venv/bin/activate` to activate venv
+
+### `requirements.txt`
+- main dependencies: `gradio`, `numpy`, `pillow`, `tensorflow`
+- jupyter lab for running notebooks: `jupyterlab`
+- for reading `hevc`/`heif` files: `pillow_heif`
+- the rest: dependencies' dependencies
+
 ## Colab drive folder
 [link](https://drive.google.com/drive/folders/1ryLoVFHR7yRBQK4mYo6ijerhv2acAAaR)
 
@@ -35,7 +52,10 @@ later used as API for game frontend
 
 has authentication with randomly generated passwords (not committed to repo) to prevent random people using app
 
-<sup>requires Secure context: `localhost`, or hosted on `https`</sup>
+<sup>requires Secure context: `localhost`, or hosted on `https` except when used as API for Game Frontend
+<br>[running as API for Game Frontend in WSL may require using `netsh interface portproxy`](https://stackoverflow.com/a/63781351/3623350)</sup>
+
+
 
 ### PublicImageMiningFrontend
 [link](https://github.com/NutchapolSal/PublicImageMiningFrontend)
