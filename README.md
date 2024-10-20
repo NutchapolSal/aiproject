@@ -71,3 +71,5 @@ game frontend made with SolidStart
 
 <sup>requires Secure context: `localhost`, or hosted on `https`</sup>
 
+## Presentation slides
+[`presentation.pdf`](https://drive.google.com/file/d/1FwI3gWTygrq99PAnmVLD4ssq0nTysIY5/view) inside [Colab drive folder](https://drive.google.com/drive/folders/1ryLoVFHR7yRBQK4mYo6ijerhv2acAAaR)
